@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.example.pokedexapiinterface.service.IService;
 import org.example.pokedexapiinterface.viewmodel.PokemonDTO;
-import org.example.pokedexapiinterface.viewmodel.PokemonMinimalDTO;
+import org.example.pokedexapiinterface.viewmodel.PokemonListDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/pokemons")
 public class PokemonController {
 
-    private final @NonNull IService<PokemonDTO, PokemonMinimalDTO> pokemonService;
+    private final @NonNull IService<PokemonDTO, PokemonListDTO> pokemonService;
 
-    public PokemonController(@NonNull IService<PokemonDTO, PokemonMinimalDTO> pokemonService) {
+    public PokemonController(@NonNull IService<PokemonDTO, PokemonListDTO> pokemonService) {
         this.pokemonService = pokemonService;
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE})
-    public ResponseEntity<PagedModel<PokemonMinimalDTO>> getPokemons(
+    public ResponseEntity<PagedModel<PokemonListDTO>> getPokemons(
             @PageableDefault(page = 0, size = 10)
             @SortDefault(sort = "ndex", direction = Sort.Direction.ASC)
             Pageable pageable) {

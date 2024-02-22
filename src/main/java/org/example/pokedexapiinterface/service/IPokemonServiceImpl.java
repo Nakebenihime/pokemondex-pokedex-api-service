@@ -7,8 +7,8 @@ import org.example.pokedexapiinterface.model.Pokemon;
 import org.example.pokedexapiinterface.repository.PokemonRepository;
 import org.example.pokedexapiinterface.viewmodel.PokemonDTO;
 import org.example.pokedexapiinterface.viewmodel.PokemonDTOAssembler;
-import org.example.pokedexapiinterface.viewmodel.PokemonMinimalDTO;
-import org.example.pokedexapiinterface.viewmodel.PokemonMinimalDTOAssembler;
+import org.example.pokedexapiinterface.viewmodel.PokemonListDTO;
+import org.example.pokedexapiinterface.viewmodel.PokemonListDTOAssembler;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
@@ -20,25 +20,25 @@ import static org.example.pokedexapiinterface.utils.StringUtils.convertToTitleCa
 
 @Slf4j
 @Service
-public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonMinimalDTO> {
+public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonListDTO> {
 
     private final @NonNull PokemonRepository pokemonRepository;
     private final @NonNull PokemonDTOAssembler pokemonDTOAssembler;
-    private final @NonNull PokemonMinimalDTOAssembler pokemonMinimalDTOAssembler;
+    private final @NonNull PokemonListDTOAssembler pokemonListDTOAssembler;
 
-    public IPokemonServiceImpl(@NonNull PokemonRepository pokemonRepository, @NonNull PokemonDTOAssembler pokemonDTOAssembler, @NonNull PokemonMinimalDTOAssembler pokemonMinimalDTOAssembler) {
+    public IPokemonServiceImpl(@NonNull PokemonRepository pokemonRepository, @NonNull PokemonDTOAssembler pokemonDTOAssembler, @NonNull PokemonListDTOAssembler pokemonListDTOAssembler) {
         this.pokemonRepository = pokemonRepository;
         this.pokemonDTOAssembler = pokemonDTOAssembler;
-        this.pokemonMinimalDTOAssembler = pokemonMinimalDTOAssembler;
+        this.pokemonListDTOAssembler = pokemonListDTOAssembler;
     }
 
     @Override
-    public PagedModel<PokemonMinimalDTO> findAll(Pageable pageable) {
+    public PagedModel<PokemonListDTO> findAll(Pageable pageable) {
         Page<Pokemon> pokemons = pokemonRepository.findAll(pageable);
         if (pokemons.isEmpty()) {
             throw new PokemonNotFoundException("This usually occurs when the pagination parameters are incorrect; please check the number of pages, the size and the sorting criteria. Example request: GET /api/pokemons?page=2&size=20&sort=name,asc");
         }
-        return pokemonMinimalDTOAssembler.toPagedModel(pokemons);
+        return pokemonListDTOAssembler.toPagedModel(pokemons);
     }
 
     @Override

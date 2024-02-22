@@ -1,5 +1,6 @@
 package org.example.pokedexapiinterface.viewmodel;
 
+import lombok.NonNull;
 import org.example.pokedexapiinterface.controller.PokemonController;
 import org.example.pokedexapiinterface.model.Pokemon;
 import org.modelmapper.ModelMapper;
@@ -17,34 +18,34 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class PokemonMinimalDTOAssembler extends RepresentationModelAssemblerSupport<Pokemon, PokemonMinimalDTO> {
+public class PokemonListDTOAssembler extends RepresentationModelAssemblerSupport<Pokemon, PokemonListDTO> {
 
     private final ModelMapper mapper;
 
-    public PokemonMinimalDTOAssembler(ModelMapper mapper) {
-        super(PokemonController.class, PokemonMinimalDTO.class);
+    public PokemonListDTOAssembler(ModelMapper mapper) {
+        super(PokemonController.class, PokemonListDTO.class);
         this.mapper = mapper;
     }
 
     @Override
-    public PokemonMinimalDTO toModel(Pokemon entity) {
-        PokemonMinimalDTO pokemonMinimalDTO = mapper.map(entity, PokemonMinimalDTO.class);
-        pokemonMinimalDTO.add(linkTo(PokemonController.class).slash((convertToHyphenatedForm(entity.getName()))).withSelfRel());
-        return pokemonMinimalDTO;
+    public @NonNull PokemonListDTO toModel(@NonNull Pokemon entity) {
+        PokemonListDTO pokemonListDTO = mapper.map(entity, PokemonListDTO.class);
+        pokemonListDTO.add(linkTo(PokemonController.class).slash((convertToHyphenatedForm(entity.getName()))).withSelfRel());
+        return pokemonListDTO;
     }
 
     @Override
-    public CollectionModel<PokemonMinimalDTO> toCollectionModel(Iterable<? extends Pokemon> entities) {
+    public @NonNull CollectionModel<PokemonListDTO> toCollectionModel(Iterable<? extends Pokemon> entities) {
         return CollectionModel.of(
                 StreamSupport.stream(entities.spliterator(), false)
                         .map(this::toModel)
                         .toList());
     }
 
-    public PagedModel<PokemonMinimalDTO> toPagedModel(Page<Pokemon> page) {
-        Collection<PokemonMinimalDTO> pokemonMinimalDTOS = toCollectionModel(page.getContent()).getContent();
+    public PagedModel<PokemonListDTO> toPagedModel(Page<Pokemon> page) {
+        Collection<PokemonListDTO> pokemonListDTOS = toCollectionModel(page.getContent()).getContent();
         PagedModel.PageMetadata pageMetadata = new PagedModel.PageMetadata(page.getSize(), page.getNumber(), page.getTotalElements(), page.getTotalPages());
-        PagedModel<PokemonMinimalDTO> pagedModel = PagedModel.of(pokemonMinimalDTOS, pageMetadata);
+        PagedModel<PokemonListDTO> pagedModel = PagedModel.of(pokemonListDTOS, pageMetadata);
         pagedModel.add(linkTo(methodOn(PokemonController.class).getPokemons(page.getPageable())).withSelfRel());
         return pagedModel;
     }

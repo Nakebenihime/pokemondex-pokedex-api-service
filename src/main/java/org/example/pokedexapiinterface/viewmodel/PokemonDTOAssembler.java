@@ -1,5 +1,6 @@
 package org.example.pokedexapiinterface.viewmodel;
 
+import lombok.NonNull;
 import org.example.pokedexapiinterface.controller.PokemonController;
 import org.example.pokedexapiinterface.model.Pokemon;
 import org.modelmapper.ModelMapper;
@@ -21,7 +22,7 @@ public class PokemonDTOAssembler extends RepresentationModelAssemblerSupport<Pok
     }
 
     @Override
-    public PokemonDTO toModel(Pokemon entity) {
+    public @NonNull PokemonDTO toModel(@NonNull Pokemon entity) {
         PokemonDTO pokemonDTO = mapper.map(entity, PokemonDTO.class);
         pokemonDTO.add(linkTo(methodOn(PokemonController.class).getPokemons(Pageable.unpaged())).withSelfRel());
         return pokemonDTO;
