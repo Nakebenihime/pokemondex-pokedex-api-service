@@ -2,7 +2,6 @@ package org.example.pokedexapiinterface.viewmodel;
 
 import lombok.NonNull;
 import org.example.pokedexapiinterface.controller.AbilityController;
-import org.example.pokedexapiinterface.controller.PokemonController;
 import org.example.pokedexapiinterface.model.Ability;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
