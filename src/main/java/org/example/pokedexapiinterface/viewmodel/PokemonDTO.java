@@ -33,7 +33,6 @@ public class PokemonDTO extends RepresentationModel<PokemonDTO> {
     @NotNull(message = "The \"pokemon stats\" object is mandatory.")
     private PokemonStatsDTO stats;
 
-
     @Valid
     @NotNull(message = "The \"pokemon abilities\" array is mandatory.")
     private ArrayList<PokemonAbilityDTO> abilities;
