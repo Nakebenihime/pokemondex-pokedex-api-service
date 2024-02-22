@@ -73,6 +73,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
     }
 
+    /**
+     * Handles the exception thrown when an Ability is not found during a search.
+     * Logs the exception information using log4j and returns an error response in the form of {@link ErrorResponseDTO}.
+     *
+     * @param ex      The exception instance of {@link HttpMediaTypeNotSupportedException}
+     * @param request The web request
+     * @return A {@link ResponseEntity} object with the error response and the appropriate HTTP status code.
+     */
+    @ExceptionHandler(value = {AbilityNotFoundException.class})
+    protected ResponseEntity<Object> handlePokemonNotFoundException(final AbilityNotFoundException ex, WebRequest request) {
+        log.info(ex.getClass().getName());
+        log.error("", ex);
+
+        final ErrorResponseDTO errorResponse =
+                ErrorResponseDTO.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.NOT_FOUND)
+                        .code(HttpStatus.NOT_FOUND.value())
+                        .message("The specified search parameters did not produce any results")
+                        .errors(Collections.singletonList(ex.getLocalizedMessage()))
+                        .path(getPathParameters(request))
+                        .build();
+        return new ResponseEntity<>(errorResponse, new HttpHeaders(), errorResponse.getStatus());
+    }
+
     /*------------------------------------------------------- 405 ----------------------------------------------------*/
 
     /**
