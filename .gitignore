@@ -1,0 +1,13 @@
+# Ignore everything:
+*
+
+# except these files:
+!.gitignore
+!.dockerignore
+!HELP.md
+!pom.xml
+!Dockerfile
+
+# except this sub-directory and all sub-directories and files:
+!src
+!src/**/*
