@@ -34,8 +34,8 @@ public class MongoDBConfig {
     @WritingConverter
     public static class EnumWritingConverter implements Converter<PokemonType, String> {
         @Override
-        public String convert(final PokemonType type) {
-            return type.getType();
+        public String convert(final PokemonType pokemonType) {
+            return pokemonType.getType();
         }
     }
 

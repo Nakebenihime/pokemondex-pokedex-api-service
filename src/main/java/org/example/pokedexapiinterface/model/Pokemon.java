@@ -29,7 +29,7 @@ public class Pokemon {
     private String url;
 
     @Field(value = "types", targetType = FieldType.ARRAY)
-    private ArrayList<PokemonType> types;
+    private ArrayList<PokemonType> pokemonTypes;
 
     private PokemonStats stats;
 

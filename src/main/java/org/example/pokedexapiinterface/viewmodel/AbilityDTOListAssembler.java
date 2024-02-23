@@ -18,11 +18,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class AbilityListDTOAssembler extends RepresentationModelAssemblerSupport<Ability, AbilityDTO> {
+public class AbilityDTOListAssembler extends RepresentationModelAssemblerSupport<Ability, AbilityDTO> {
 
     private final ModelMapper mapper;
 
-    public AbilityListDTOAssembler(ModelMapper mapper) {
+    public AbilityDTOListAssembler(ModelMapper mapper) {
         super(AbilityController.class, AbilityDTO.class);
         this.mapper = mapper;
     }

@@ -29,22 +29,22 @@ class StringUtilsTest {
 
     @Test
     void testConvertToTitleCase_withSingleWord() {
-        assertEquals("Charizard", StringUtils.convertToTitleCase("charizard"));
+        assertEquals("Charizard", StringUtils.convertToTitleCaseWBrackets("charizard"));
     }
 
     @Test
     void testConvertToTitleCase_NullInput() {
-        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCase(null));
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCaseWBrackets(null));
     }
 
     @Test
     void testConvertToTitleCase_EmptyInput() {
-        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCase(""));
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCaseWBrackets(""));
     }
 
     @Test
     void testConvertToTitleCase_withMultipleWords() {
-        assertEquals("Charizard (Mega Charizard X)", StringUtils.convertToTitleCase("charizard-mega-charizard-x"));
+        assertEquals("Charizard (Mega Charizard X)", StringUtils.convertToTitleCaseWBrackets("charizard-mega-charizard-x"));
     }
 
     @Test

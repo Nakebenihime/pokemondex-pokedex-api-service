@@ -1,6 +1,5 @@
 package org.example.pokedexapiinterface.viewmodel;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -24,24 +23,19 @@ public class PokemonDTO extends RepresentationModel<PokemonDTO> {
     @NotBlank(message = "The \"url\" field is mandatory.")
     private String url;
 
-    @Valid
     @NotNull(message = "The \"pokemon types\" array is mandatory.")
     @Size(min = 1, max = 2)
     private ArrayList<PokemonType> types;
 
-    @Valid
     @NotNull(message = "The \"pokemon stats\" object is mandatory.")
     private PokemonStatsDTO stats;
 
-    @Valid
     @NotNull(message = "The \"pokemon abilities\" array is mandatory.")
     private ArrayList<PokemonAbilityDTO> abilities;
 
-    @Valid
     @NotNull(message = "The \"pokemon moves\" array is mandatory.")
     private ArrayList<PokemonMoveDTO> moves;
 
-    @Valid
     @NotNull(message = "The \"pokemon charts\" array is mandatory.")
     private ArrayList<PokemonTypeChartsDTO> charts;
 }

@@ -37,7 +37,7 @@ public class StringUtils {
      * @return the word string converted to title case
      * @throws IllegalArgumentException if the word string is null or empty
      */
-    public static String convertToTitleCase(String word) {
+    public static String convertToTitleCaseWBrackets(String word) {
         if (word == null || word.isEmpty()) {
             throw new IllegalArgumentException("Input word cannot be null or empty");
         }
@@ -55,6 +55,20 @@ public class StringUtils {
             res = capitalizeFirstLetter(parts[0]) + " (" + res.substring(parts[0].length() + 1) + ")";
         }
         return res;
+    }
+
+    public static String convertToTitleCaseWOBrackets(String word) {
+        if (word == null || word.isEmpty()) {
+            throw new IllegalArgumentException("Input word cannot be null or empty");
+        }
+
+        String[] parts = word.split("-");
+        StringJoiner titleCaseString = new StringJoiner(" ");
+
+        for (String part : parts) {
+            titleCaseString.add(capitalizeFirstLetter(part));
+        }
+        return titleCaseString.toString();
     }
 
     /**

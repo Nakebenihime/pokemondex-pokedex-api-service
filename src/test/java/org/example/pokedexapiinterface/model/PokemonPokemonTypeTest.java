@@ -7,12 +7,12 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class PokemonTypeTest {
+class PokemonPokemonTypeTest {
 
     @Test
     void testGetType_ValidType() {
-        PokemonType fireType = PokemonType.getType("fire");
-        assertEquals(PokemonType.FIRE, fireType);
+        PokemonType firePokemonType = PokemonType.getType("fire");
+        assertEquals(PokemonType.FIRE, firePokemonType);
     }
 
     @Test

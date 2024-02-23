@@ -2,6 +2,7 @@ package org.example.pokedexapiinterface.viewmodel;
 
 import lombok.NonNull;
 import org.example.pokedexapiinterface.controller.AbilityController;
+import org.example.pokedexapiinterface.controller.MoveController;
 import org.example.pokedexapiinterface.controller.PokemonController;
 import org.example.pokedexapiinterface.model.Pokemon;
 import org.modelmapper.ModelMapper;
@@ -31,6 +32,11 @@ public class PokemonDTOAssembler extends RepresentationModelAssemblerSupport<Pok
         for (PokemonAbilityDTO ability : pokemonDTO.getAbilities()) {
             ability.add(linkTo(methodOn(AbilityController.class).getAbilityByName(convertToHyphenatedForm(ability.getName()))).withSelfRel());
         }
+
+        for (PokemonMoveDTO move : pokemonDTO.getMoves()) {
+            move.add(linkTo(methodOn(MoveController.class).getMoveByName(convertToHyphenatedForm(move.getName()))).withSelfRel());
+        }
+
         return pokemonDTO;
 
     }

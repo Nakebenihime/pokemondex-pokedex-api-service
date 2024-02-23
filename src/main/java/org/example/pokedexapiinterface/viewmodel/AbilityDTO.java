@@ -1,6 +1,7 @@
 package org.example.pokedexapiinterface.viewmodel;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.hateoas.RepresentationModel;
@@ -17,6 +18,6 @@ public class AbilityDTO extends RepresentationModel<AbilityDTO> {
     @NotBlank(message = "The \"description\" field is mandatory.")
     private String description;
 
-    @NotBlank(message = "The \"generation\" field is mandatory.")
+    @NotNull(message = "The \"generation\" field is mandatory.")
     private int generation;
 }
