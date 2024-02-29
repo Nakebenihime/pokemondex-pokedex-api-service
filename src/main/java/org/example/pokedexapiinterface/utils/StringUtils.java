@@ -30,14 +30,16 @@ public class StringUtils {
      *
      * <p>Title case capitalizes the first letter of each word in the word string.
      * If the word contains hyphens, the first word before the hyphen will be separately capitalized
-     * and enclosed in parentheses, while the remaining words will be title cased.
-     * For example, "charizard-mega-charizard-x" will be converted to "Charizard (Mega Charizard X)".
+     * and optionally enclosed in parentheses, while the remaining words will be title cased.
+     * For example with the argument withBrackets to true "charizard-mega-charizard-x" will be converted to "Charizard (Mega Charizard X)".
+     * For example with the argument withBrackets to false, "air-lock" will be converted to "Air Lock".
      *
-     * @param word the hyphen-separated word string to be converted
+     * @param word         the hyphen-separated word string to be converted
+     * @param withBrackets specifies whether to enclose the first word in parentheses or not
      * @return the word string converted to title case
      * @throws IllegalArgumentException if the word string is null or empty
      */
-    public static String convertToTitleCaseWBrackets(String word) {
+    public static String convertToTitleCase(String word, boolean withBrackets) {
         if (word == null || word.isEmpty()) {
             throw new IllegalArgumentException("Input word cannot be null or empty");
         }
@@ -51,24 +53,10 @@ public class StringUtils {
 
         String res = titleCaseString.toString();
 
-        if (parts.length > 1) {
+        if (withBrackets && parts.length > 1) {
             res = capitalizeFirstLetter(parts[0]) + " (" + res.substring(parts[0].length() + 1) + ")";
         }
         return res;
-    }
-
-    public static String convertToTitleCaseWOBrackets(String word) {
-        if (word == null || word.isEmpty()) {
-            throw new IllegalArgumentException("Input word cannot be null or empty");
-        }
-
-        String[] parts = word.split("-");
-        StringJoiner titleCaseString = new StringJoiner(" ");
-
-        for (String part : parts) {
-            titleCaseString.add(capitalizeFirstLetter(part));
-        }
-        return titleCaseString.toString();
     }
 
     /**

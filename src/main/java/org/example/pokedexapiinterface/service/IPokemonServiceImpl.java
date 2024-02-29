@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static org.example.pokedexapiinterface.utils.StringUtils.convertToTitleCaseWBrackets;
+import static org.example.pokedexapiinterface.utils.StringUtils.convertToTitleCase;
 
 @Slf4j
 @Service
@@ -43,7 +43,7 @@ public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonListDTO>
 
     @Override
     public Optional<PokemonDTO> findByName(String name) {
-        return Optional.ofNullable(pokemonRepository.findByName(convertToTitleCaseWBrackets(name)).map(pokemonDTOAssembler::toModel)
+        return Optional.ofNullable(pokemonRepository.findByName(convertToTitleCase(name, true)).map(pokemonDTOAssembler::toModel)
                 .orElseThrow(() -> new PokemonNotFoundException(String.format("This usually occurs when the specified Pokemon name (%s) can't be found, make sure the name is spelled correctly and includes any necessary hyphens (e.g., 'Charizard (Mega Charizard Y)'). Example request: GET /api/v1/pokemons/charizard-mega-charizard-y", name))));
     }
 }

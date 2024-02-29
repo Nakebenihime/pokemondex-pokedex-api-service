@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static org.example.pokedexapiinterface.utils.StringUtils.convertToTitleCaseWOBrackets;
+import static org.example.pokedexapiinterface.utils.StringUtils.convertToTitleCase;
 
 @Slf4j
 @Service
@@ -43,7 +43,7 @@ public class IAbilityServiceImpl implements ISingleService<AbilityDTO> {
 
     @Override
     public Optional<AbilityDTO> findByName(String name) {
-        return Optional.ofNullable(abilityRepository.findByName(convertToTitleCaseWOBrackets(name)).map(abilityDTOAssembler::toModel)
+        return Optional.ofNullable(abilityRepository.findByName(convertToTitleCase(name, false)).map(abilityDTOAssembler::toModel)
                 .orElseThrow(() -> new AbilityNotFoundException(String.format("This usually occurs when the specified Ability name (%s) can't be found, make sure the name is spelled correctly and includes any necessary hyphens (e.g., 'Armor Tail'). Example request: GET /api/v1/abilities/armor-tail", name))));
     }
 }

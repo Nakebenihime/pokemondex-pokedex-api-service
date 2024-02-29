@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static org.example.pokedexapiinterface.utils.StringUtils.convertToTitleCaseWOBrackets;
+import static org.example.pokedexapiinterface.utils.StringUtils.convertToTitleCase;
 
 @Slf4j
 @Service
@@ -43,7 +43,7 @@ public class IMoveServiceImpl implements ISingleService<MoveDTO> {
 
     @Override
     public Optional<MoveDTO> findByName(String name) {
-        return Optional.ofNullable(moveRepository.findByName(convertToTitleCaseWOBrackets(name)).map(moveDTOAssembler::toModel)
+        return Optional.ofNullable(moveRepository.findByName(convertToTitleCase(name, false)).map(moveDTOAssembler::toModel)
                 .orElseThrow(() -> new MoveNotFoundException(String.format("This usually occurs when the specified Move name (%s) can't be found, make sure the name is spelled correctly and includes any necessary hyphens (e.g., 'Aerial Ace'). Example request: GET /api/v1/moves/aerial-ace", name))));
     }
 }
