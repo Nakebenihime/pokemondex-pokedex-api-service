@@ -8,16 +8,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PokemonPokemonTypeTest {
-
     @Test
     void testGetType_ValidType() {
-        PokemonType firePokemonType = PokemonType.getType("fire");
-        assertEquals(PokemonType.FIRE, firePokemonType);
+        assertEquals(PokemonType.NORMAL, PokemonType.getType("normal"));
+    }
+
+    @Test
+    void testGetType_CapitalizedValidType() {
+        assertEquals(PokemonType.FIRE, PokemonType.getType("FIRE"));
     }
 
     @Test
     void testGetType_InvalidType() {
-        assertThrows(NoSuchElementException.class, () -> PokemonType.getType("light"));
+        assertThrows(NoSuchElementException.class, () -> PokemonType.getType("unknown"));
     }
 
     @Test

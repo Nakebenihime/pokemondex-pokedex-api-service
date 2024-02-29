@@ -28,23 +28,53 @@ class StringUtilsTest {
     }
 
     @Test
-    void testConvertToTitleCase_withSingleWord() {
-        assertEquals("Charizard", StringUtils.convertToTitleCaseWBrackets("charizard"));
+    void testConvertToTitleCase_WithBrackets_SingleWord() {
+        assertEquals("Charizard", StringUtils.convertToTitleCase("charizard", true));
     }
 
     @Test
-    void testConvertToTitleCase_NullInput() {
-        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCaseWBrackets(null));
+    void testConvertToTitleCase_WithBrackets_MultipleWords() {
+        assertEquals("Charizard (Mega Charizard X)", StringUtils.convertToTitleCase("charizard-mega-charizard-x", true));
     }
 
     @Test
-    void testConvertToTitleCase_EmptyInput() {
-        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCaseWBrackets(""));
+    void testConvertToTitleCase_WithoutBrackets_SingleWord() {
+        assertEquals("Adaptability", StringUtils.convertToTitleCase("adaptability", false));
     }
 
     @Test
-    void testConvertToTitleCase_withMultipleWords() {
-        assertEquals("Charizard (Mega Charizard X)", StringUtils.convertToTitleCaseWBrackets("charizard-mega-charizard-x"));
+    void testConvertToTitleCase_WithoutBrackets_MultipleWords() {
+        assertEquals("Air Lock", StringUtils.convertToTitleCase("air-lock", false));
+    }
+
+    @Test
+    void testConvertToTitleCase_WithBrackets_SingleWord_NoChange() {
+        assertEquals("Charizard", StringUtils.convertToTitleCase("Charizard", true));
+    }
+
+    @Test
+    void testConvertToTitleCase_WithoutBrackets_SingleWord_NoChange() {
+        assertEquals("Adaptability", StringUtils.convertToTitleCase("Adaptability", false));
+    }
+
+    @Test
+    void testConvertToTitleCase_WithBrackets_EmptyInput() {
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCase("", true));
+    }
+
+    @Test
+    void testConvertToTitleCase_WithoutBrackets_EmptyInput() {
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCase("", false));
+    }
+
+    @Test
+    void testConvertToTitleCase_WithBrackets_NullInput() {
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCase(null, true));
+    }
+
+    @Test
+    void testConvertToTitleCase_WithoutBrackets_NullInput() {
+        assertThrows(IllegalArgumentException.class, () -> StringUtils.convertToTitleCase(null, false));
     }
 
     @Test
@@ -61,5 +91,4 @@ class StringUtilsTest {
     void testCapitalizeFirstLetter_EmptyInput() {
         assertThrows(IllegalArgumentException.class, () -> StringUtils.capitalizeFirstLetter(""));
     }
-
 }
