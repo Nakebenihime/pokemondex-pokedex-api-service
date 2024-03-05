@@ -43,6 +43,19 @@ public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonListDTO>
     }
 
     @Override
+    public PagedModel<PokemonListDTO> findAllByPokemonTypes(Pageable pageable, List<String> types) {
+        if (types.size() > 2) {
+            throw new IllegalArgumentException("This usually occurs when the number of types provided is invalid. please provide minimum one and maximum two types.");
+        }
+        Page<Pokemon> pokemons = pokemonRepository.findAllByPokemonTypes(pageable, types);
+
+        if (pokemons.isEmpty()) {
+            throw new PokemonNotFoundException("This usually occurs when the pagination parameters are incorrect; please check the number of pages, the size and the sorting criteria. Example request: GET /api/pokemons?page=2&size=20&sort=name,asc");
+        }
+        return pokemonListDTOAssembler.toPagedModel(pokemons);
+    }
+
+    @Override
     public Optional<PokemonDTO> findByName(String name) {
         return Optional.ofNullable(pokemonRepository.findByName(convertToTitleCase(name, true)).map(pokemonDTOAssembler::toModel)
                 .orElseThrow(() -> new PokemonNotFoundException(String.format("This usually occurs when the specified Pokemon name (%s) can't be found, make sure the name is spelled correctly and includes any necessary hyphens (e.g., 'Charizard (Mega Charizard Y)'). Example request: GET /api/v1/pokemons/charizard-mega-charizard-y", name))));

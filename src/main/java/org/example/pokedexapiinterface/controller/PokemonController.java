@@ -13,10 +13,9 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -36,6 +35,16 @@ public class PokemonController {
             Pageable pageable) {
         log.info("/pokemons : pageable: page {}, size {}, sort {}", pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         return ResponseEntity.ok(pokemonService.findAll(pageable));
+    }
+
+    @GetMapping(params = {"types"}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE})
+    public ResponseEntity<PagedModel<PokemonListDTO>> getPokemonsByType(
+            @RequestParam(defaultValue = "") List<String> types,
+            @PageableDefault(page = 0, size = 10)
+            @SortDefault(sort = "ndex", direction = Sort.Direction.ASC)
+            Pageable pageable) {
+        log.info("/pokemons : pageable: page {}, size {}, sort {}, filter: types {}", pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort(), types);
+        return ResponseEntity.ok(pokemonService.findAllByPokemonTypes(pageable, types));
     }
 
     @GetMapping(value = "/{name}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE})
