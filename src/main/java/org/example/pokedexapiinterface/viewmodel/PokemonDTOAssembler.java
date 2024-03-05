@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import static org.example.pokedexapiinterface.utils.StringUtils.convertToHyphenatedForm;
+import static org.example.pokedexapiinterface.utils.StringUtil.convertToHyphenatedForm;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 

@@ -3,17 +3,20 @@ package org.example.pokedexapiinterface.viewmodel;
 import lombok.NonNull;
 import org.example.pokedexapiinterface.controller.AbilityController;
 import org.example.pokedexapiinterface.model.Ability;
+import org.example.pokedexapiinterface.utils.PaginationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collection;
 import java.util.stream.StreamSupport;
 
-import static org.example.pokedexapiinterface.utils.StringUtils.convertToHyphenatedForm;
+import static org.example.pokedexapiinterface.utils.StringUtil.convertToHyphenatedForm;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -44,9 +47,11 @@ public class AbilityDTOListAssembler extends RepresentationModelAssemblerSupport
 
     public PagedModel<AbilityDTO> toPagedModel(Page<Ability> page) {
         Collection<AbilityDTO> abilityDTOS = toCollectionModel(page.getContent()).getContent();
-        PagedModel.PageMetadata pageMetadata = new PagedModel.PageMetadata(page.getSize(), page.getNumber(), page.getTotalElements(), page.getTotalPages());
+        PagedModel.PageMetadata pageMetadata = PaginationUtil.getPageMetadata(page);
         PagedModel<AbilityDTO> pagedModel = PagedModel.of(abilityDTOS, pageMetadata);
         pagedModel.add(linkTo(methodOn(AbilityController.class).getAbilities(page.getPageable())).withSelfRel());
+        UriComponentsBuilder uriBuilder = linkTo(methodOn(AbilityController.class).getAbilities(Pageable.unpaged())).toUriComponentsBuilder();
+        PaginationUtil.addPaginationLinks(pagedModel, uriBuilder, page);
         return pagedModel;
     }
 }

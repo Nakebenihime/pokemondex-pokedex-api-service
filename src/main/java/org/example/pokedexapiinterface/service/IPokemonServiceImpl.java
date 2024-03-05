@@ -14,9 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.example.pokedexapiinterface.utils.StringUtils.convertToTitleCase;
+import static org.example.pokedexapiinterface.utils.StringUtil.convertToTitleCase;
 
 @Slf4j
 @Service

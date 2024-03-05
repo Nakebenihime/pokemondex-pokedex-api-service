@@ -2,9 +2,9 @@ package org.example.pokedexapiinterface.utils;
 
 import java.util.StringJoiner;
 
-public class StringUtils {
+public class StringUtil {
 
-    private StringUtils() {
+    private StringUtil() {
     }
 
     /**
