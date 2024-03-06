@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.StreamSupport;
 
 import static org.example.pokedexapiinterface.utils.StringUtil.convertToHyphenatedForm;
@@ -46,12 +47,16 @@ public class PokemonListDTOAssembler extends RepresentationModelAssemblerSupport
     }
 
     public PagedModel<PokemonListDTO> toPagedModel(Page<Pokemon> page) {
+        return toPagedModel(page, null);
+    }
+
+    public PagedModel<PokemonListDTO> toPagedModel(Page<Pokemon> page, Map<String, String> filters) {
+        UriComponentsBuilder uriBuilder = linkTo(methodOn(PokemonController.class).getPokemons(Pageable.unpaged())).toUriComponentsBuilder();
         Collection<PokemonListDTO> pokemonListDTOS = toCollectionModel(page.getContent()).getContent();
         PagedModel.PageMetadata pageMetadata = PaginationUtil.getPageMetadata(page);
         PagedModel<PokemonListDTO> pagedModel = PagedModel.of(pokemonListDTOS, pageMetadata);
         pagedModel.add(linkTo(PokemonController.class).withSelfRel());
-        UriComponentsBuilder uriBuilder = linkTo(methodOn(PokemonController.class).getPokemons(Pageable.unpaged())).toUriComponentsBuilder();
-        PaginationUtil.addPaginationLinks(pagedModel, uriBuilder, page);
+        PaginationUtil.addPaginationLinks(pagedModel, uriBuilder, page, filters);
         return pagedModel;
     }
 }

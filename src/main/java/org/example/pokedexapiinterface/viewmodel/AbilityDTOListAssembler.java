@@ -51,7 +51,7 @@ public class AbilityDTOListAssembler extends RepresentationModelAssemblerSupport
         PagedModel<AbilityDTO> pagedModel = PagedModel.of(abilityDTOS, pageMetadata);
         pagedModel.add(linkTo(methodOn(AbilityController.class).getAbilities(page.getPageable())).withSelfRel());
         UriComponentsBuilder uriBuilder = linkTo(methodOn(AbilityController.class).getAbilities(Pageable.unpaged())).toUriComponentsBuilder();
-        PaginationUtil.addPaginationLinks(pagedModel, uriBuilder, page);
+        PaginationUtil.addPaginationLinks(pagedModel, uriBuilder, page, null);
         return pagedModel;
     }
 }

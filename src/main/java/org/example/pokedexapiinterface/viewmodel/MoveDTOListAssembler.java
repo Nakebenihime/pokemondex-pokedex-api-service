@@ -51,7 +51,7 @@ public class MoveDTOListAssembler extends RepresentationModelAssemblerSupport<Mo
         PagedModel<MoveDTO> pagedModel = PagedModel.of(moveDTOS, pageMetadata);
         pagedModel.add(linkTo(methodOn(MoveController.class).getMoves(page.getPageable())).withSelfRel());
         UriComponentsBuilder uriBuilder = linkTo(methodOn(MoveController.class).getMoves(Pageable.unpaged())).toUriComponentsBuilder();
-        PaginationUtil.addPaginationLinks(pagedModel, uriBuilder, page);
+        PaginationUtil.addPaginationLinks(pagedModel, uriBuilder, page, null);
         return pagedModel;
     }
 }

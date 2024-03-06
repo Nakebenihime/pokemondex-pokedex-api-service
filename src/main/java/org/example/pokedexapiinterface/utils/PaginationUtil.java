@@ -6,6 +6,8 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Map;
+
 public class PaginationUtil {
 
     private PaginationUtil() {
@@ -15,7 +17,10 @@ public class PaginationUtil {
         return new PagedModel.PageMetadata(page.getSize(), page.getNumber(), page.getTotalElements(), page.getTotalPages());
     }
 
-    public static void addPaginationLinks(PagedModel<?> pagedModel, UriComponentsBuilder uriBuilder, Page<?> page) {
+    public static void addPaginationLinks(PagedModel<?> pagedModel, UriComponentsBuilder uriBuilder, Page<?> page, Map<String, String> queryParams) {
+        uriBuilder.replaceQueryParam("page");
+        uriBuilder.replaceQueryParam("size");
+        addQueryParameters(uriBuilder, queryParams);
         addFirstPageLink(pagedModel, uriBuilder, page);
         addNextPageLink(pagedModel, uriBuilder, page);
         addPreviousPageLink(pagedModel, uriBuilder, page);
@@ -58,6 +63,12 @@ public class PaginationUtil {
         if (sort != null) {
             uriBuilder.replaceQueryParam("sort");
             sort.forEach(order -> uriBuilder.queryParam("sort", String.format("%s,%s", order.getProperty(), order.getDirection())));
+        }
+    }
+
+    public static void addQueryParameters(UriComponentsBuilder uriBuilder, Map<String, String> queryParams) {
+        if (queryParams != null && !queryParams.isEmpty()) {
+            queryParams.forEach(uriBuilder::queryParam);
         }
     }
 }

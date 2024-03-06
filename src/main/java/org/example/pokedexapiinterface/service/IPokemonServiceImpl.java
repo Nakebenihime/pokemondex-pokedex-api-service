@@ -14,7 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.example.pokedexapiinterface.utils.StringUtil.convertToTitleCase;
@@ -52,7 +54,13 @@ public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonListDTO>
         if (pokemons.isEmpty()) {
             throw new PokemonNotFoundException("This usually occurs when the pagination parameters are incorrect; please check the number of pages, the size and the sorting criteria. Example request: GET /api/pokemons?page=2&size=20&sort=name,asc");
         }
-        return pokemonListDTOAssembler.toPagedModel(pokemons);
+
+        Map<String, String> filters = new HashMap<>();
+        if (!types.isEmpty()) {
+            filters.put("types", String.join(",", types));
+        }
+
+        return pokemonListDTOAssembler.toPagedModel(pokemons, filters);
     }
 
     @Override
