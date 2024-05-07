@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.example.pokedexapiinterface.service.IService;
 import org.example.pokedexapiinterface.viewmodel.PokemonDTO;
-import org.example.pokedexapiinterface.viewmodel.PokemonListDTO;
+import org.example.pokedexapiinterface.viewmodel.PokemonMinimalDTO;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -22,23 +22,23 @@ import java.util.List;
 @RequestMapping("/api/v1/pokemons")
 public class PokemonController {
 
-    private final @NonNull IService<PokemonDTO, PokemonListDTO> pokemonService;
+    private final @NonNull IService<PokemonDTO, PokemonMinimalDTO> pokemonService;
 
-    public PokemonController(@NonNull IService<PokemonDTO, PokemonListDTO> pokemonService) {
+    public PokemonController(@NonNull IService<PokemonDTO, PokemonMinimalDTO> pokemonService) {
         this.pokemonService = pokemonService;
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE})
-    public ResponseEntity<PagedModel<PokemonListDTO>> getPokemons(
+    public PagedModel<PokemonMinimalDTO> getPokemons(
             @PageableDefault(page = 0, size = 10)
             @SortDefault(sort = "ndex", direction = Sort.Direction.ASC)
             Pageable pageable) {
         log.info("/pokemons : pageable: page {}, size {}, sort {}", pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-        return ResponseEntity.ok(pokemonService.findAll(pageable));
+        return pokemonService.findAll(pageable);
     }
 
     @GetMapping(params = {"types"}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE})
-    public ResponseEntity<PagedModel<PokemonListDTO>> getPokemonsByType(
+    public ResponseEntity<PagedModel<PokemonMinimalDTO>> getPokemonsByType(
             @RequestParam(defaultValue = "") List<String> types,
             @PageableDefault(page = 0, size = 10)
             @SortDefault(sort = "ndex", direction = Sort.Direction.ASC)

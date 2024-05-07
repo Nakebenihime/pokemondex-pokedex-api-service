@@ -38,6 +38,5 @@ public class PokemonDTOAssembler extends RepresentationModelAssemblerSupport<Pok
         }
 
         return pokemonDTO;
-
     }
 }

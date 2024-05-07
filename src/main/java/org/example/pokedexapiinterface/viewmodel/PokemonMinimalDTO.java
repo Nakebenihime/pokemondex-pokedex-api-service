@@ -10,7 +10,7 @@ import org.springframework.hateoas.server.core.Relation;
 @EqualsAndHashCode(callSuper = false)
 @Relation(collectionRelation = "pokemons")
 @Data
-public class PokemonListDTO extends RepresentationModel<PokemonListDTO> {
+public class PokemonMinimalDTO extends RepresentationModel<PokemonMinimalDTO> {
 
     @NotNull(message = "The \"ndex\" field is mandatory.")
     private int ndex;

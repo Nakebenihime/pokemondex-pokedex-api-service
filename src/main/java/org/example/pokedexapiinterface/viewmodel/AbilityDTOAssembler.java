@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
+import static org.example.pokedexapiinterface.utils.StringUtil.convertToHyphenatedForm;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -27,4 +28,11 @@ public class AbilityDTOAssembler extends RepresentationModelAssemblerSupport<Abi
         abilityDTO.add(linkTo(methodOn(AbilityController.class).getAbilities(Pageable.unpaged())).withSelfRel());
         return abilityDTO;
     }
+
+    public @NonNull AbilityDTO toList(@NonNull Ability entity) {
+        AbilityDTO abilityDTO = mapper.map(entity, AbilityDTO.class);
+        abilityDTO.add(linkTo(AbilityController.class).slash((convertToHyphenatedForm(entity.getName()))).withSelfRel());
+        return abilityDTO;
+    }
+
 }
