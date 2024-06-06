@@ -1,9 +1,10 @@
-# Ignore everything:
+# ignore everything:
 *
 
 # except these files:
 !.gitignore
 !.dockerignore
+!.gitlab-ci.yml
 !HELP.md
 !pom.xml
 !Dockerfile
