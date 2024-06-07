@@ -5,10 +5,17 @@ include:
   - remote: "https://gitlab.com/to-be-continuous/gitleaks/-/raw/2.5.2/templates/gitlab-ci-gitleaks.yml"
   # Maven template
   - remote: "https://gitlab.com/to-be-continuous/maven/-/raw/3.9.2/templates/gitlab-ci-maven.yml"
+  # SonarQube template
+  - remote: "https://gitlab.com/to-be-continuous/sonar/-/raw/4.2.3/templates/gitlab-ci-sonar.yml"
 
 # variables
 variables:
   DOCKER_TRIVY_DISABLED: "true"
+
+# secret variables
+# SONAR_TOKEN: SonarQube authentication token (depends on your authentication method)
+# SONAR_HOST_URL: SonarQube server URL
+# NVD_API_KEY:  API Key to access the NVD API; obtained from https://nvd.nist.gov/developers/request-an-api-key
 
 # your pipeline stages
 stages:

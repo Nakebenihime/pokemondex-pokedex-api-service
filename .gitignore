@@ -8,6 +8,7 @@
 !HELP.md
 !pom.xml
 !Dockerfile
+!renovate.json
 
 # except this sub-directory and all sub-directories and files:
 !src
