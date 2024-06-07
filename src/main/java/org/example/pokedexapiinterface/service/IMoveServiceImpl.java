@@ -3,7 +3,6 @@ package org.example.pokedexapiinterface.service;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.example.pokedexapiinterface.exception.MoveNotFoundException;
-import org.example.pokedexapiinterface.model.Ability;
 import org.example.pokedexapiinterface.model.Move;
 import org.example.pokedexapiinterface.repository.MoveRepository;
 import org.example.pokedexapiinterface.viewmodel.MoveDTO;

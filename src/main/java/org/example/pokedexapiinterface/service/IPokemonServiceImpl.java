@@ -5,7 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.pokedexapiinterface.exception.PokemonNotFoundException;
 import org.example.pokedexapiinterface.model.Pokemon;
 import org.example.pokedexapiinterface.repository.PokemonRepository;
-import org.example.pokedexapiinterface.viewmodel.*;
+import org.example.pokedexapiinterface.viewmodel.PokemonDTO;
+import org.example.pokedexapiinterface.viewmodel.PokemonDTOAssembler;
+import org.example.pokedexapiinterface.viewmodel.PokemonMinimalDTO;
+import org.example.pokedexapiinterface.viewmodel.PokemonMinimalDTOAssembler;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -19,7 +22,7 @@ import static org.example.pokedexapiinterface.utils.StringUtil.convertToTitleCas
 
 @Slf4j
 @Service
-public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonMinimalDTO>  {
+public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonMinimalDTO> {
     private final @NonNull PokemonRepository pokemonRepository;
     private final @NonNull PokemonMinimalDTOAssembler pokemonMinimalDTOAssembler;
 
@@ -34,6 +37,7 @@ public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonMinimalD
         this.pokemonDTOAssembler = pokemonDTOAssembler;
         this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
+
     @Override
     public PagedModel<PokemonMinimalDTO> findAllByPokemonTypes(Pageable pageable, List<String> types) {
         if (types.size() > 2) {
@@ -46,6 +50,7 @@ public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonMinimalD
         }
         return pagedResourcesAssembler.toModel(pokemons, pokemonMinimalDTOAssembler);
     }
+
     @Override
     public PagedModel<PokemonMinimalDTO> findAll(Pageable pageable) {
         Page<Pokemon> pokemons = pokemonRepository.findAll(pageable);
@@ -54,6 +59,7 @@ public class IPokemonServiceImpl implements IService<PokemonDTO, PokemonMinimalD
         }
         return pagedResourcesAssembler.toModel(pokemons, pokemonMinimalDTOAssembler);
     }
+
     @Override
     public Optional<PokemonDTO> findByName(String name) {
         return Optional.ofNullable(pokemonRepository.findByName(convertToTitleCase(name, true)).map(pokemonDTOAssembler::toModel)
