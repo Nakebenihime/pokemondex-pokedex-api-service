@@ -1,4 +1,4 @@
-FROM maven:3.9.7-eclipse-temurin-17-alpine AS BUILDER
+FROM maven:3.9.8-eclipse-temurin-17-alpine AS BUILDER
 LABEL mantainer="mario-dacosta@hotmail.fr"
 WORKDIR /application
 
