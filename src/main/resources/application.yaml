@@ -1,0 +1,6 @@
+spring:
+  data:
+    rest:
+      base-path: /api/v1
+    mongodb:
+      uri: mongodb://localhost:27017/pokemondex
