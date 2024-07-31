@@ -19,5 +19,5 @@ public class AbilityDTO extends RepresentationModel<AbilityDTO> {
     private String description;
 
     @NotNull(message = "The \"generation\" field is mandatory.")
-    private int generation;
+    private Integer generation;
 }

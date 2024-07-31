@@ -29,13 +29,13 @@ public class Move {
     private String category;
 
     @Field(value = "power", targetType = FieldType.INT32)
-    private int power;
+    private Integer power;
 
     @Field(value = "accuracy", targetType = FieldType.INT32)
-    private int accuracy;
+    private Integer accuracy;
 
     @Field(value = "pp", targetType = FieldType.INT32)
-    private int pp;
+    private Integer pp;
 
     @Field(value = "description", targetType = FieldType.STRING)
     private String description;

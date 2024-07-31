@@ -19,7 +19,7 @@ public class ErrorResponseDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime timestamp;
     private HttpStatus status;
-    private int code;
+    private Integer code;
     private String message;
     private List<String> errors;
     private String path;

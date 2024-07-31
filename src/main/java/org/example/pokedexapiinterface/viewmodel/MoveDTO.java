@@ -23,13 +23,13 @@ public class MoveDTO extends RepresentationModel<MoveDTO> {
     private String category;
 
     @NotNull(message = "The \"power\" field is mandatory.")
-    private int power;
+    private Integer power;
 
     @NotNull(message = "The \"accuracy\" field is mandatory.")
-    private int accuracy;
+    private Integer accuracy;
 
     @NotNull(message = "The \"pp\" field is mandatory.")
-    private int pp;
+    private Integer pp;
 
     @NotBlank(message = "The \"description\" field is mandatory.")
     private String description;

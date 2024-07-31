@@ -24,5 +24,5 @@ public class Ability {
     private String description;
 
     @Field(value = "introduced_generation", targetType = FieldType.INT32)
-    private int generation;
+    private Integer generation;
 }
