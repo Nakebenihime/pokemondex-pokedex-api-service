@@ -24,6 +24,9 @@ class PokemonPokemonTypeTest {
     }
 
     @Test
+    void testGetType_CapitalizedInvalidType() { assertThrows(NoSuchElementException.class, () -> PokemonType.getType("UNKNOWN"));}
+
+    @Test
     void testGetType_NullInput() {
         assertThrows(IllegalArgumentException.class, () -> PokemonType.getType(null));
     }
