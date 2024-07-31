@@ -1,38 +1,43 @@
 package org.example.pokedexapiinterface.model;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class PokemonPokemonTypeTest {
-    @Test
-    void testGetType_ValidType() {
-        assertEquals(PokemonType.NORMAL, PokemonType.getType("normal"));
+class PokemonTypeTests {
+
+    static Stream<Object[]> provideValidInputs() {
+        return Stream.of(
+                new Object[]{"normal", PokemonType.NORMAL},
+                new Object[]{"FIRE", PokemonType.FIRE},
+                new Object[]{"Water", PokemonType.WATER},
+                new Object[]{"icE", PokemonType.ICE}
+        );
     }
 
-    @Test
-    void testGetType_CapitalizedValidType() {
-        assertEquals(PokemonType.FIRE, PokemonType.getType("FIRE"));
+    static Stream<Object[]> provideInvalidInputs() {
+        return Stream.of(
+                new Object[]{"unknown", NoSuchElementException.class},
+                new Object[]{"UNKNOWN", NoSuchElementException.class},
+                new Object[]{null, IllegalArgumentException.class},
+                new Object[]{"", IllegalArgumentException.class}
+        );
     }
 
-    @Test
-    void testGetType_InvalidType() {
-        assertThrows(NoSuchElementException.class, () -> PokemonType.getType("unknown"));
+    @ParameterizedTest
+    @MethodSource("provideValidInputs")
+    void whenValidTypeIsGiven_thenReturnType(String input, PokemonType expected) {
+        assertEquals(expected, PokemonType.getType(input));
     }
 
-    @Test
-    void testGetType_CapitalizedInvalidType() { assertThrows(NoSuchElementException.class, () -> PokemonType.getType("UNKNOWN"));}
-
-    @Test
-    void testGetType_NullInput() {
-        assertThrows(IllegalArgumentException.class, () -> PokemonType.getType(null));
-    }
-
-    @Test
-    void testGetType_EmptyInput() {
-        assertThrows(IllegalArgumentException.class, () -> PokemonType.getType(""));
+    @ParameterizedTest
+    @MethodSource("provideInvalidInputs")
+    void whenInvalidTypeIsGiven_thenThrowException(String input, Class<Exception> expectedException) {
+        assertThrows(expectedException, () -> PokemonType.getType(input));
     }
 }
