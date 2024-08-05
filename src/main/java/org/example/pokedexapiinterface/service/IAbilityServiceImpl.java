@@ -19,11 +19,10 @@ import static org.example.pokedexapiinterface.utils.StringUtil.convertToTitleCas
 
 @Slf4j
 @Service
-public class IAbilityServiceImpl implements ISingleService<AbilityDTO> {
+public class IAbilityServiceImpl implements IAbilityService {
 
     private final @NonNull AbilityRepository abilityRepository;
     private final @NonNull AbilityDTOAssembler abilityDTOAssembler;
-
     private final @NonNull PagedResourcesAssembler<Ability> pagedResourcesAssembler;
 
     public IAbilityServiceImpl(@NonNull AbilityRepository abilityRepository, @NonNull AbilityDTOAssembler abilityDTOAssembler, @NonNull PagedResourcesAssembler<Ability> pagedResourcesAssembler) {
@@ -34,16 +33,42 @@ public class IAbilityServiceImpl implements ISingleService<AbilityDTO> {
 
     @Override
     public PagedModel<AbilityDTO> findAll(Pageable pageable) {
+        log.info("Fetching all abilities with pagination - Page Number: {}, Page Size: {}, Sort: {}",
+                pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<Ability> abilities = abilityRepository.findAll(pageable);
         if (abilities.isEmpty()) {
-            throw new AbilityNotFoundException("This usually occurs when the pagination parameters are incorrect; please check the number of pages, the size and the sorting criteria. Example request: GET /api/abilities?page=2&size=20&sort=name,asc");
+            throw new AbilityNotFoundException(
+                    "The query yielded no results. " +
+                            "This usually occurs when the pagination settings are not correctly configured, including the page number, page size, or sorting order. " +
+                            "For example, you might try: GET /api/abilities?page=1&size=10&sort=name,asc or GET /api/abilities?page=1&size=20&sort=generation,desc");
         }
+        log.info("Successfully retrieved {} abilities matching the query.", abilities.getTotalElements());
         return pagedResourcesAssembler.toModel(abilities, abilityDTOAssembler::toList);
     }
 
     @Override
     public Optional<AbilityDTO> findByName(String name) {
-        return Optional.ofNullable(abilityRepository.findByName(convertToTitleCase(name, false)).map(abilityDTOAssembler::toModel)
-                .orElseThrow(() -> new AbilityNotFoundException(String.format("This usually occurs when the specified Ability name (%s) can't be found, make sure the name is spelled correctly and includes any necessary hyphens (e.g., 'Armor Tail'). Example request: GET /api/v1/abilities/armor-tail", name))));
+        return Optional.ofNullable(
+                abilityRepository.findByName(convertToTitleCase(name, false))
+                        .map(abilityDTOAssembler::toModel)
+                        .orElseThrow(() -> new AbilityNotFoundException(String.format(
+                                "The specified Ability name ('%s') could not be found. " +
+                                        "To avoid this issue, ensure that the name is spelled correctly and that any spaces in the name are replaced with hyphens. " +
+                                        "For example, if you're trying to access the Ability 'Armor Tail', you should format it as 'armor-tail' in your request, like so: GET /api/v1/abilities/armor-tail", name))
+                        )
+        );
+    }
+
+    @Override
+    public PagedModel<AbilityDTO> search(String name, String description, Integer generation, Pageable pageable) {
+        Page<Ability> abilities = abilityRepository.search(name, description, generation, pageable);
+        if (abilities.isEmpty()) {
+            throw new AbilityNotFoundException(
+                    "The query yielded no results. " +
+                            "This usually occurs when the search or pagination settings are not correctly configured. " +
+                            "For example, you might try: GET /api/abilities/search?name=Armor&generation=3&page=0&size=10&sort=generation,desc");
+        }
+        log.info("Successfully retrieved {} abilities matching the query.", abilities.getTotalElements());
+        return pagedResourcesAssembler.toModel(abilities, abilityDTOAssembler::toList);
     }
 }

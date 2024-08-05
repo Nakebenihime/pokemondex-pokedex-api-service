@@ -1,7 +1,7 @@
 package org.example.pokedexapiinterface.controller;
 
 import org.example.pokedexapiinterface.exception.AbilityNotFoundException;
-import org.example.pokedexapiinterface.service.ISingleService;
+import org.example.pokedexapiinterface.service.IAbilityService;
 import org.example.pokedexapiinterface.viewmodel.AbilityDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class AbilityControllerTests {
     private static final String UNKNOWN_ABILITY_NAME = "Unknown";
 
     @MockBean
-    private ISingleService<AbilityDTO> abilityService;
+    private IAbilityService abilityService;
     @Autowired
     private MockMvc mockMvc;
     private AbilityDTO abilityDTO;
@@ -99,7 +99,7 @@ class AbilityControllerTests {
 
     @Test
     void whenGetAbilityByNameIsCalled_withNonExistingName_thenReturnsErrorResponseDTO() throws Exception {
-        when(abilityService.findByName(UNKNOWN_ABILITY_NAME)).thenThrow(new AbilityNotFoundException("This usually occurs when the specified Ability name (unknown) can't be found, make sure the name is spelled correctly and includes any necessary hyphens (e.g., 'Armor Tail'). Example request: GET /api/v1/abilities/armor-tail"));
+        when(abilityService.findByName(UNKNOWN_ABILITY_NAME)).thenThrow(new AbilityNotFoundException("The specified Ability name (unknown) could not be found. To avoid this issue, ensure that the name is spelled correctly and that any spaces in the name are replaced with hyphens. For example, if you're trying to access the Ability 'Armor Tail', you should format it as 'armor-tail' in your request, like so: GET /api/v1/abilities/armor-tail"));
 
         mockMvc.perform(get(ABILITIES_URL + "/" + UNKNOWN_ABILITY_NAME)
                         .accept(MediaType.APPLICATION_JSON))
@@ -108,8 +108,8 @@ class AbilityControllerTests {
                 .andExpect(jsonPath("$.timestamp").exists())
                 .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.name()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()))
-                .andExpect(jsonPath("$.message").value("The specified search parameters did not produce any results"))
-                .andExpect(jsonPath("$.errors").value("This usually occurs when the specified Ability name (unknown) can't be found, make sure the name is spelled correctly and includes any necessary hyphens (e.g., 'Armor Tail'). Example request: GET /api/v1/abilities/armor-tail"))
+                .andExpect(jsonPath("$.message").value("Oops! It looks like we couldn't find any results with the search parameters you specified."))
+                .andExpect(jsonPath("$.errors").value("The specified Ability name (unknown) could not be found. To avoid this issue, ensure that the name is spelled correctly and that any spaces in the name are replaced with hyphens. For example, if you're trying to access the Ability 'Armor Tail', you should format it as 'armor-tail' in your request, like so: GET /api/v1/abilities/armor-tail"))
                 .andExpect(jsonPath("$.path").value(ABILITIES_URL + "/" + UNKNOWN_ABILITY_NAME + "?"));
 
         verify(abilityService, times(1)).findByName(UNKNOWN_ABILITY_NAME);
