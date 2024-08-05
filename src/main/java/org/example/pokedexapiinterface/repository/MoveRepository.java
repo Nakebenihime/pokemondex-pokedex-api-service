@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface MoveRepository extends MongoRepository<Move, String> {
+public interface MoveRepository extends MongoRepository<Move, String>, MoveRepositoryCustom {
     Optional<Move> findByName(String name);
 }

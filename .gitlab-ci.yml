@@ -59,7 +59,7 @@ workflow:
 
 gitleaks:
   stage: test
-  needs: []
+  needs: [ ]
   allow_failure: true
 
 mvn-release:
@@ -68,7 +68,7 @@ mvn-release:
 
 semantic-release:
   cache:
-    - !reference [.semrel-base, cache]
+    - !reference [ .semrel-base, cache ]
     - key: '$CI_COMMIT_REF_SLUG-maven'
       paths:
         - '${MAVEN_PROJECT_DIR}/${MAVEN_CFG_DIR}/repository'
